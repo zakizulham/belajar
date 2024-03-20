@@ -278,8 +278,6 @@ legend("topright", inset=.05, title="",
 
 ht<- dweibull(t, shape = 0.5, scale = 1)/(1 - pweibull(t, shape = 0.5, scale = 1))
 
-ht  <- hweibull()
-
 plot(t, ht, type="l", lty=1, lwd=2,
      ylim = c(0,30),
      
@@ -329,13 +327,13 @@ plot(km_fit)
 
 summary(km_fit)
 
-str(summary(km_fit))
+# str(summary(km_fit))
 
-cols <- lapply(c(2:7, 14:15) , function(x) res[x])
+# cols <- lapply(c(2:7, 14:15) , function(x) res[x])
 # Combine the columns into a data frame
-tbl <- do.call(data.frame, cols)
-str(tbl)
-tbl
+# tbl <- do.call(data.frame, cols)
+# str(tbl)
+# tbl
 
 # save.df <- as.data.frame(tbl)
 
@@ -389,60 +387,65 @@ km_fit
 summary(km_fit)
 summary(km_fit)$table
 
-d <- data.frame(time = km_fit$time,
-                n.risk = km_fit$n.risk,
-                n.event = km_fit$n.event,
-                n.censor = km_fit$n.censor,
-                surv = km_fit$surv,
-                upper = km_fit$upper,
-                lower = km_fit$lower)
+k <- length(km_fit$surv)
+m = l <- km_fit$surv
 
-# Change color, linetype by strata, risk.table color by strata
-ggsurvplot(km_fit,
-           pval = TRUE, conf.int = TRUE,
-           risk.table = TRUE, # Add risk table
-           risk.table.col = "strata", # Change risk table color by groups
-           linetype = "strata", # Change line type by groups
-           surv.median.line = "hv", # Specify median survival
-           ggtheme = theme_bw(), # Change ggplot2 theme
-           palette = c("#E7B800", "#2E9FDF"))
+m
+m[1] <- log(1/l[1])
+for (i in 2:k) {
+  m[i] <- log(l[i-1]) - log(l[i])
+}
+m
 
-ggsurvplot(km_fit,
-           conf.int = TRUE,
-           risk.table.col = "strata", # Change risk table color by groups
-           ggtheme = theme_bw(), # Change ggplot2 theme
-           palette = c("#E7B800", "#2E9FDF"),
-           fun = "cumhaz")
+plot(km_fit$time[1:27], m[1:27],
+     main= 'Plot Hazard berdasarkan Grup',
+     xlab = 'Time',
+     ylab = 'Hazard Rate',
+     col = "#E7B800",
+     lwd = 3,
+     type="l")
+
+lines(km_fit$time[28:51],m[28:51], lwd=3, col= "#2E9FDF")
+
+legend("topright", 
+       inset=.05, 
+       title="",
+       c("Grup 1", "Grup 2"),
+       lwd=2,
+       lty=1, 
+       col=c("#E7B800", "#2E9FDF"),
+       bty="n")
 
 # Dipisah berdasarkan number
 km_fit <-survfit(Surv(time, censor) ~ number ,data = df)
-km_fit
 
+km_fit
 summary(km_fit)
 summary(km_fit)$table
 
-d <- data.frame(time = km_fit$time,
-                n.risk = km_fit$n.risk,
-                n.event = km_fit$n.event,
-                n.censor = km_fit$n.censor,
-                surv = km_fit$surv,
-                upper = km_fit$upper,
-                lower = km_fit$lower)
+k <- length(km_fit$surv)
+m = l <- km_fit$surv
+m
+m[1] <- log(1/l[1])
+for (i in 2:k) {
+  m[i] <- log(l[i-1]) - log(l[i])
+}
+m
+plot(km_fit$time[1:27], m[1:27],
+     main= 'Plot Hazard berdasarkan Number',
+     xlab = 'Time',
+     ylab = 'Hazard Rate',
+     col = "#E7B800",
+     lwd = 3,
+     type="l")
 
-# Change color, linetype by strata, risk.table color by strata
-ggsurvplot(km_fit,
-           pval = TRUE, conf.int = TRUE,
-           risk.table = TRUE, # Add risk table
-           risk.table.col = "strata", # Change risk table color by groups
-           linetype = "strata", # Change line type by groups
-           surv.median.line = "hv", # Specify median survival
-           ggtheme = theme_bw(), # Change ggplot2 theme
-           palette = c("#E7B800", "#2E9FDF"))
+lines(km_fit$time[28:51],m[28:51], lwd=3, col= "#2E9FDF")
 
-ggsurvplot(km_fit,
-           conf.int = TRUE,
-           risk.table.col = "strata", # Change risk table color by groups
-           ggtheme = theme_bw(), # Change ggplot2 theme
-           palette = c("#E7B800", "#2E9FDF"),
-           fun = "cumhaz")
-
+legend("topright", 
+       #inset=.05, 
+       title="",
+       c("Number 1", "Number 2"),
+       lwd=2,
+       lty=1, 
+       col=c("#E7B800", "#2E9FDF"),
+       bty="n")
