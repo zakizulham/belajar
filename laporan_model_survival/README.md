@@ -1,9 +1,9 @@
-Tanggal 20 Mar. 24
-Perbaharui maksud pengerjaan nomor 6 bagian 3 pada kode .R
-Sebelumnya fungsi hazard comulative untuk menentukan PH dengan library ggsurvoplot
-Sekarang fungsi hazard rate kaplan Meier tanpa library
+Tanggal 20 Mar. 24 \n
+Perbaharui maksud pengerjaan nomor 6 bagian 3 pada kode .R \n
+- Sebelumnya fungsi hazard comulative untuk menentukan PH dengan library ggsurvoplot
+- Sekarang fungsi hazard rate kaplan Meier tanpa library
 
-Tanggal 18 Mar. 24
+Tanggal 18 Mar. 24 \n
 directories ini ditujukan untuk laporan project 1 model survival
 
 isi proyek berupa
