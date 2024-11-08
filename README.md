@@ -1,2 +1,4 @@
 # Description
-This repository is for attach file from cloud to local when i submitted task to teacher
+This repository is for practicing the GitHub Flow.
+
+Hello this is will step journey to learn git.
